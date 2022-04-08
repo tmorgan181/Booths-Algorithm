@@ -1,4 +1,4 @@
-# # Trenton Morgan, Karl Lodholz 2022
+# Trenton Morgan, Karl Lodholz 2022
 
 # This file implements a simulated Booth's algorithm and tracks the number of
 # iterations and number of addition and subtraction operations that must be
@@ -329,7 +329,7 @@ def main():
     plt.plot(unique_multiplier_lengths, avg_booths_additions, label = "Booths Algorithm")
     plt.plot(unique_multiplier_lengths ,avg_ext_additions, label = "Extended Booths")
 
-    #Lable axis
+    #Label axis
     plt.xlabel("Length of number")
     plt.ylabel("Average number of additions")
 
@@ -341,7 +341,7 @@ def main():
     plt.plot(unique_multiplier_lengths, avg_booths_iterations, label = "Booths Algorithm")
     plt.plot(unique_multiplier_lengths ,avg_ext_iterations, label = "Extended Booths")
 
-    #Lable axis
+    #Label axis
     plt.xlabel("Length of number")
     plt.ylabel("Average number of iterations")
 
