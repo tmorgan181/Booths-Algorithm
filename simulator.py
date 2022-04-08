@@ -274,33 +274,76 @@ def main():
         sum_Booths += booths_count
         sum_Ext += ext_count
 
-        #Update the graph as the length changes every 5 intervals
-        if (i+1)%5 == 0:
-            #Add the average to the ext_Vals and boothVals series
-            ext_Vals.append(sum_Ext/5)
-            booths_Vals.append(sum_Booths/5)
-
-            #And add the input length at which those values occurred to the n series
-            n.append(len(multipliers[i]))
-
-            #Then reset the counters to restart with the next set.
-            sum_Booths=0
-            sum_Ext=0
-
+    # Debug outputs
     print("Lengths:", multiplier_lengths)
     print("Booths additions:", booths_addition_counts)
     print("Booths iterations:", booths_iteration_counts)
     print("Ext additions:", ext_addition_counts)
     print("Ext iterations:", ext_iteration_counts)
 
+    # Get the unique length values
+    unique_multiplier_lengths = list(set(multiplier_lengths))
 
-    #Plot lines for the two algorithms
-    plt.plot(n,booths_Vals, label = "Booths Algorithm")
-    plt.plot(n,ext_Vals, label = "Extended Booths")
+    # Calculate the average additions and iterations for each input length and each algorithm
+    avg_booths_additions = []
+    avg_booths_iterations = []
+    avg_ext_additions = []
+    avg_ext_iterations = []
+
+    for l1 in unique_multiplier_lengths:
+        indexes_to_avg = []
+        index = -1
+        for l2 in multiplier_lengths:
+            index += 1
+            if l1 == l2:
+                indexes_to_avg.append(index)
+
+        z = 0
+        booths_add_sum = 0
+        booths_iter_sum = 0
+        ext_add_sum = 0
+        ext_iter_sum = 0
+
+        for i in indexes_to_avg:
+            z += 1
+            booths_add_sum += booths_addition_counts[i]
+            booths_iter_sum += booths_iteration_counts[i]
+
+            ext_add_sum += ext_addition_counts[i]
+            ext_iter_sum += ext_iteration_counts[i]
+
+        avg_booths_additions.append(round(booths_add_sum / z, 1))
+        avg_booths_iterations.append(round(booths_iter_sum / z, 1))
+
+        avg_ext_additions.append(round(ext_add_sum / z, 1))
+        avg_ext_iterations.append(round(ext_iter_sum / z, 1))
+
+    # Debug outputs
+    # print("\nUnique lengths:", unique_multiplier_lengths)
+    # print("Avg Booths adds:", avg_booths_additions)
+    # print("Avg Booths iter:", avg_booths_iterations)
+    # print("Avg ext adds:", avg_ext_additions)
+    # print("Avg ext iters:", avg_ext_iterations)
+
+    #Plot average addition lines for the two algorithms
+    plt.plot(unique_multiplier_lengths, avg_booths_additions, label = "Booths Algorithm")
+    plt.plot(unique_multiplier_lengths ,avg_ext_additions, label = "Extended Booths")
 
     #Lable axis
     plt.xlabel("Length of number")
     plt.ylabel("Average number of additions")
+
+    #Print graphs
+    plt.legend()
+    plt.show()
+
+    # Plot average iterations
+    plt.plot(unique_multiplier_lengths, avg_booths_iterations, label = "Booths Algorithm")
+    plt.plot(unique_multiplier_lengths ,avg_ext_iterations, label = "Extended Booths")
+
+    #Lable axis
+    plt.xlabel("Length of number")
+    plt.ylabel("Average number of iterations")
 
     #Print graphs
     plt.legend()
